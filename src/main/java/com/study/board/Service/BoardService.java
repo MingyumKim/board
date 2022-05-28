@@ -14,13 +14,26 @@ public class BoardService {
     private BoardRepository boardRepository;
 
 
-
+    //글 작성
     public void write(Board board) {
         boardRepository.save(board);
     }
 
+    //리스트
     public List<Board> boardList() {
         return boardRepository.findAll();
     }
+
+    //상세페이지
+    public Board boardView(Integer id) {
+        return boardRepository.findById(id).get();
+    }
+
+    //글 삭제
+    public void boardDelete(Integer id) {
+        boardRepository.deleteById(id);
+    }
+
+    //글 수정
 
 }
