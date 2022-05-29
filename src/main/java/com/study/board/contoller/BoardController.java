@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.jws.WebParam;
+
 @Controller
 public class BoardController {
 
@@ -22,11 +24,14 @@ public class BoardController {
     }
 
     @PostMapping("/board/writePro")
-    public String boardWritePro(Board board) {
+    public String boardWritePro(Board board, Model model) {
 
         boardService.write(board);
 
-        return "";
+        model.addAttribute("message", "글 작성완료");
+        model.addAttribute("searchUrl", "/board/list");
+
+        return "message";
     }
 
     @GetMapping("/board/list")
@@ -61,7 +66,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board) {
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) {
 
         //기존 내용가져오기
         Board boardTemp = boardService.boardView(id);
@@ -71,7 +76,10 @@ public class BoardController {
         boardTemp.setContent(board.getContent());
         boardService.write(boardTemp);
 
-        return "redirect:/board/list";
+        model.addAttribute("message", "글 수정완료");
+        model.addAttribute("searchUrl", "/board/list");
+
+        return "message";
     }
 
 }
