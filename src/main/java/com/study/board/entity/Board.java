@@ -12,10 +12,12 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content", nullable = false)
     private String content;
+
+    private String filename;
+
+    private String filepath;
 
 }

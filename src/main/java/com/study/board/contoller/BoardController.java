@@ -8,8 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import javax.jws.WebParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class BoardController {
@@ -24,9 +23,9 @@ public class BoardController {
     }
 
     @PostMapping("/board/writePro")
-    public String boardWritePro(Board board, Model model) {
+    public String boardWritePro(Board board, Model model, MultipartFile file) throws Exception{
 
-        boardService.write(board);
+        boardService.write(board, file);
 
         model.addAttribute("message", "글 작성완료");
         model.addAttribute("searchUrl", "/board/list");
@@ -66,7 +65,7 @@ public class BoardController {
     }
 
     @PostMapping("/board/update/{id}")
-    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model) {
+    public String boardUpdate(@PathVariable("id") Integer id, Board board, Model model, MultipartFile file) throws Exception {
 
         //기존 내용가져오기
         Board boardTemp = boardService.boardView(id);
@@ -74,7 +73,7 @@ public class BoardController {
         //새로운 데이터 덮어씌우기
         boardTemp.setTitle(board.getTitle());
         boardTemp.setContent(board.getContent());
-        boardService.write(boardTemp);
+        boardService.write(boardTemp, file);
 
         model.addAttribute("message", "글 수정완료");
         model.addAttribute("searchUrl", "/board/list");
